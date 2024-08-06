@@ -54,6 +54,6 @@ func run(source string) {
 	tokens := scanner.ScanTokens()
 
 	for _, token := range tokens {
-		fmt.Printf("%v", token)
+		fmt.Printf("%+v\n", token)
 	}
 }
