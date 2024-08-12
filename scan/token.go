@@ -1,10 +1,10 @@
 package scan
 
 type Token struct {
-	tokenType TokenType
-	lexeme    string
-	literal   interface{}
-	line      int
+	TokenType TokenType
+	Lexeme    string
+	Literal   interface{}
+	Line      int
 }
 
 type TokenType int

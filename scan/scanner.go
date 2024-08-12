@@ -22,7 +22,7 @@ func (s *Scanner) ScanTokens() []Token {
 		s.scanToken()
 	}
 
-	s.tokens = append(s.tokens, Token{tokenType: EOF, line: s.line})
+	s.tokens = append(s.tokens, Token{TokenType: EOF, Line: s.line})
 	return s.tokens
 }
 
@@ -115,10 +115,10 @@ func (s *Scanner) addToken(tokenType TokenType) {
 func (s *Scanner) addTokenWithLiteral(tokenType TokenType, literal interface{}) {
 	lexeme := s.source[s.start:s.current]
 	token := Token{
-		tokenType: tokenType,
-		lexeme:    lexeme,
-		literal:   literal,
-		line:      s.line,
+		TokenType: tokenType,
+		Lexeme:    lexeme,
+		Literal:   literal,
+		Line:      s.line,
 	}
 	s.tokens = append(s.tokens, token)
 }
