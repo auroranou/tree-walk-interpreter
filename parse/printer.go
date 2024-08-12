@@ -16,6 +16,7 @@ func (printer AstPrinter) parenthesize(name string, exprs ...Expr) string {
 		val += " "
 		val += printer.print(expr)
 	}
+	val += ")"
 	return val
 }
 
