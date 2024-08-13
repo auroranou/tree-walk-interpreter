@@ -1,7 +1,6 @@
 package parse
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/auroranou/tree-walk-interpreter/scan"
@@ -20,7 +19,7 @@ func TestPrettyPrint(t *testing.T) {
 	want := "(* (- 123) (group 45.67))"
 	got := AstPrinter{}.Print(expr)
 
-	if fmt.Sprintf("%v", got) != want {
+	if got != want {
 		t.Errorf("Wanted: %v\nGot: %v\n", want, got)
 	}
 }
