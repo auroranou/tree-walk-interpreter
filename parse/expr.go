@@ -16,36 +16,36 @@ type ExprVisitor interface {
 }
 
 type BinaryExpr struct {
-	left     Expr
-	operator scan.Token
-	right    Expr
+	Left     Expr
+	Operator scan.Token
+	Right    Expr
 }
 
-func (expr *BinaryExpr) accept(visitor ExprVisitor) {
-	visitor.VisitBinaryExpr(*expr)
+func (expr BinaryExpr) Accept(visitor ExprVisitor) string {
+	return visitor.VisitBinaryExpr(expr)
 }
 
 type GroupingExpr struct {
-	expression Expr
+	Expression Expr
 }
 
-func (expr *GroupingExpr) accept(visitor ExprVisitor) {
-	visitor.VisitGroupingExpr(*expr)
+func (expr GroupingExpr) Accept(visitor ExprVisitor) string {
+	return visitor.VisitGroupingExpr(expr)
 }
 
 type LiteralExpr struct {
-	value interface{}
+	Value interface{}
 }
 
-func (expr *LiteralExpr) accept(visitor ExprVisitor) {
-	visitor.VisitLiteralExpr(*expr)
+func (expr LiteralExpr) Accept(visitor ExprVisitor) string {
+	return visitor.VisitLiteralExpr(expr)
 }
 
 type UnaryExpr struct {
-	operator scan.Token
-	right    Expr
+	Operator scan.Token
+	Right    Expr
 }
 
-func (expr *UnaryExpr) accept(visitor ExprVisitor) {
-	visitor.VisitUnaryExpr(*expr)
+func (expr UnaryExpr) Accept(visitor ExprVisitor) string {
+	return visitor.VisitUnaryExpr(expr)
 }
