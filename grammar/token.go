@@ -1,4 +1,4 @@
-package scan
+package grammar
 
 type Token struct {
 	TokenType TokenType
@@ -59,7 +59,7 @@ const (
 	EOF
 )
 
-var keywords map[string]TokenType = map[string]TokenType{
+var Keywords map[string]TokenType = map[string]TokenType{
 	"and":    AND,
 	"class":  CLASS,
 	"else":   ELSE,

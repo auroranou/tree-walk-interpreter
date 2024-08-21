@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/auroranou/tree-walk-interpreter/parse"
 	"github.com/auroranou/tree-walk-interpreter/scan"
 )
 
@@ -52,8 +53,13 @@ func runPrompt() {
 func run(source string) {
 	scanner := scan.NewScanner(source)
 	tokens := scanner.ScanTokens()
+	parser := parse.NewParser(tokens)
+	expr, err := parser.Parse()
 
-	for _, token := range tokens {
-		fmt.Printf("%+v\n", token)
+	if err != nil {
+		hadError = true
+		return
 	}
+
+	fmt.Printf("%v\n", parse.AstPrinter{}.Print(expr))
 }

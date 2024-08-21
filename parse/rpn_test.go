@@ -3,22 +3,22 @@ package parse
 import (
 	"testing"
 
-	"github.com/auroranou/tree-walk-interpreter/scan"
+	"github.com/auroranou/tree-walk-interpreter/grammar"
 )
 
 func TestReversePolishNotation(t *testing.T) {
 	// (1 + 2) * (4 - 3)
-	expr := BinaryExpr{
-		Left: BinaryExpr{
-			Left:     LiteralExpr{Value: 1},
-			Operator: scan.Token{TokenType: scan.PLUS, Lexeme: "+", Literal: "", Line: 1},
-			Right:    LiteralExpr{2},
+	expr := grammar.BinaryExpr{
+		Left: grammar.BinaryExpr{
+			Left:     grammar.LiteralExpr{Value: 1},
+			Operator: grammar.Token{TokenType: grammar.PLUS, Lexeme: "+", Literal: "", Line: 1},
+			Right:    grammar.LiteralExpr{Value: 2},
 		},
-		Operator: scan.Token{TokenType: scan.STAR, Lexeme: "*", Literal: "", Line: 1},
-		Right: BinaryExpr{
-			Left:     LiteralExpr{Value: 4},
-			Operator: scan.Token{TokenType: scan.MINUS, Lexeme: "-", Literal: "", Line: 1},
-			Right:    LiteralExpr{Value: 3},
+		Operator: grammar.Token{TokenType: grammar.STAR, Lexeme: "*", Literal: "", Line: 1},
+		Right: grammar.BinaryExpr{
+			Left:     grammar.LiteralExpr{Value: 4},
+			Operator: grammar.Token{TokenType: grammar.MINUS, Lexeme: "-", Literal: "", Line: 1},
+			Right:    grammar.LiteralExpr{Value: 3},
 		},
 	}
 

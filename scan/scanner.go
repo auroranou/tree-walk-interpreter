@@ -1,81 +1,85 @@
 package scan
 
-import "strconv"
+import (
+	"strconv"
+
+	"github.com/auroranou/tree-walk-interpreter/grammar"
+)
 
 type Scanner struct {
 	current int
 	line    int
 	source  string
 	start   int
-	tokens  []Token
+	tokens  []grammar.Token
 }
 
 func NewScanner(source string) *Scanner {
-	scanner := Scanner{current: 0, line: 1, source: source, start: 0, tokens: []Token{}}
+	scanner := Scanner{current: 0, line: 1, source: source, start: 0, tokens: []grammar.Token{}}
 	return &scanner
 }
 
-func (s *Scanner) ScanTokens() []Token {
+func (s *Scanner) ScanTokens() []grammar.Token {
 	for !s.isAtEnd() {
 		// We are at the beginning of the next lexeme.
 		s.start = s.current
 		s.scanToken()
 	}
 
-	s.tokens = append(s.tokens, Token{TokenType: EOF, Line: s.line})
+	s.tokens = append(s.tokens, grammar.Token{TokenType: grammar.EOF, Line: s.line})
 	return s.tokens
 }
 
 func (s *Scanner) scanToken() {
-	var nextToken TokenType
+	var nextToken grammar.TokenType
 
 	switch c := s.advance(); c {
 	case '(':
-		s.addToken(LEFT_PAREN)
+		s.addToken(grammar.LEFT_PAREN)
 	case ')':
-		s.addToken(RIGHT_PAREN)
+		s.addToken(grammar.RIGHT_PAREN)
 	case '{':
-		s.addToken(LEFT_BRACE)
+		s.addToken(grammar.LEFT_BRACE)
 	case '}':
-		s.addToken(RIGHT_BRACE)
+		s.addToken(grammar.RIGHT_BRACE)
 	case ',':
-		s.addToken(COMMA)
+		s.addToken(grammar.COMMA)
 	case '.':
-		s.addToken(DOT)
+		s.addToken(grammar.DOT)
 	case '-':
-		s.addToken(MINUS)
+		s.addToken(grammar.MINUS)
 	case '+':
-		s.addToken(PLUS)
+		s.addToken(grammar.PLUS)
 	case ';':
-		s.addToken(SEMICOLON)
+		s.addToken(grammar.SEMICOLON)
 	case '*':
-		s.addToken(STAR)
+		s.addToken(grammar.STAR)
 	case '!':
 		if s.match('=') {
-			nextToken = BANG_EQUAL
+			nextToken = grammar.BANG_EQUAL
 		} else {
-			nextToken = BANG
+			nextToken = grammar.BANG
 		}
 		s.addToken(nextToken)
 	case '=':
 		if s.match('=') {
-			nextToken = EQUAL_EQUAL
+			nextToken = grammar.EQUAL_EQUAL
 		} else {
-			nextToken = EQUAL
+			nextToken = grammar.EQUAL
 		}
 		s.addToken(nextToken)
 	case '<':
 		if s.match('=') {
-			nextToken = LESS_EQUAL
+			nextToken = grammar.LESS_EQUAL
 		} else {
-			nextToken = LESS
+			nextToken = grammar.LESS
 		}
 		s.addToken(nextToken)
 	case '>':
 		if s.match('=') {
-			nextToken = GREATER_EQUAL
+			nextToken = grammar.GREATER_EQUAL
 		} else {
-			nextToken = GREATER
+			nextToken = grammar.GREATER
 		}
 		s.addToken(nextToken)
 	case '/':
@@ -85,7 +89,7 @@ func (s *Scanner) scanToken() {
 				s.advance()
 			}
 		} else {
-			s.addToken(SLASH)
+			s.addToken(grammar.SLASH)
 		}
 	case ' ':
 	case '\r':
@@ -108,13 +112,13 @@ func (s *Scanner) scanToken() {
 	}
 }
 
-func (s *Scanner) addToken(tokenType TokenType) {
+func (s *Scanner) addToken(tokenType grammar.TokenType) {
 	s.addTokenWithLiteral(tokenType, "")
 }
 
-func (s *Scanner) addTokenWithLiteral(tokenType TokenType, literal interface{}) {
+func (s *Scanner) addTokenWithLiteral(tokenType grammar.TokenType, literal interface{}) {
 	lexeme := s.source[s.start:s.current]
-	token := Token{
+	token := grammar.Token{
 		TokenType: tokenType,
 		Lexeme:    lexeme,
 		Literal:   literal,
@@ -177,7 +181,7 @@ func (s *Scanner) string() {
 
 	// Trim the surrounding quotes.
 	strValue := s.source[s.start+1 : s.current-1]
-	s.addTokenWithLiteral(STRING, strValue)
+	s.addTokenWithLiteral(grammar.STRING, strValue)
 }
 
 func (s *Scanner) number() {
@@ -200,7 +204,7 @@ func (s *Scanner) number() {
 		panic("Invalid number")
 	}
 
-	s.addTokenWithLiteral(NUMBER, num)
+	s.addTokenWithLiteral(grammar.NUMBER, num)
 }
 
 func (s *Scanner) identifier() {
@@ -209,10 +213,10 @@ func (s *Scanner) identifier() {
 	}
 
 	text := s.source[s.start:s.current]
-	tokenType := keywords[text]
+	tokenType := grammar.Keywords[text]
 
 	if tokenType == 0 {
-		tokenType = IDENTIFIER
+		tokenType = grammar.IDENTIFIER
 	}
 
 	s.addToken(tokenType)

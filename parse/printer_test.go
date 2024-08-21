@@ -3,17 +3,17 @@ package parse
 import (
 	"testing"
 
-	"github.com/auroranou/tree-walk-interpreter/scan"
+	"github.com/auroranou/tree-walk-interpreter/grammar"
 )
 
 func TestPrettyPrint(t *testing.T) {
-	expr := BinaryExpr{
-		Left: UnaryExpr{
-			Operator: scan.Token{TokenType: scan.MINUS, Lexeme: "-", Literal: "", Line: 1},
-			Right:    LiteralExpr{Value: 123},
+	expr := grammar.BinaryExpr{
+		Left: grammar.UnaryExpr{
+			Operator: grammar.Token{TokenType: grammar.MINUS, Lexeme: "-", Literal: "", Line: 1},
+			Right:    grammar.LiteralExpr{Value: 123},
 		},
-		Operator: scan.Token{TokenType: scan.STAR, Lexeme: "*", Literal: "", Line: 1},
-		Right:    GroupingExpr{Expression: LiteralExpr{Value: 45.67}},
+		Operator: grammar.Token{TokenType: grammar.STAR, Lexeme: "*", Literal: "", Line: 1},
+		Right:    grammar.GroupingExpr{Expression: grammar.LiteralExpr{Value: 45.67}},
 	}
 
 	want := "(* (- 123) (group 45.67))"

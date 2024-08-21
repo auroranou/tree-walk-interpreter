@@ -1,8 +1,4 @@
-package parse
-
-import (
-	"github.com/auroranou/tree-walk-interpreter/scan"
-)
+package grammar
 
 type Expr interface {
 	Accept(visitor ExprVisitor) string
@@ -17,7 +13,7 @@ type ExprVisitor interface {
 
 type BinaryExpr struct {
 	Left     Expr
-	Operator scan.Token
+	Operator Token
 	Right    Expr
 }
 
@@ -42,7 +38,7 @@ func (expr LiteralExpr) Accept(visitor ExprVisitor) string {
 }
 
 type UnaryExpr struct {
-	Operator scan.Token
+	Operator Token
 	Right    Expr
 }
 
